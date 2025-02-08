@@ -7,15 +7,23 @@ import tseslint from 'typescript-eslint'
 export default tseslint.config(
   { ignores: ['dist'] },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
+    extends: [
+      js.configs.recommended,
+      ...tseslint.configs.recommended,
+      'plugin:node/recommended' // Add this line
+    ],
+    files: ['**/*.{ts,tsx}'], // Include .js files
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        ...globals.node // Add this line
+      },
     },
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      'node': require('eslint-plugin-node') // Add this line
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
