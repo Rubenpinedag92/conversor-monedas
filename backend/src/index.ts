@@ -1,11 +1,12 @@
 import express, { Request, Response } from "express";
+import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 const diccionario: DiccionarioMonedas = {
-  MXN: { MXN: 1.0, USD: 20.48 },
-  USD: { USD: 1.0, MXN: 0.5 },
+  MXN: { MXN: 1.0, USD: 0.049 },
+  USD: { USD: 1.0, MXN: 20.48 },
 };
 
 interface Conversion {
@@ -18,11 +19,11 @@ interface DiccionarioMonedas {
 
 app.use(express.json());
 
-app.get("/monedas", (req: Request, res: Response) => {
+app.get("/monedas", cors(), (req: Request, res: Response) => {
   res.json({ monedas: Object.keys(diccionario) });
 });
 
-app.get("/convertir/", (req: Request, res: Response) => {
+app.get("/convertir/", cors(), (req: Request, res: Response) => {
   const monedaOriginal = req.query.original
     ? req.query.original.toString()
     : "";
